@@ -11,17 +11,13 @@
     font-family: 'Trebuchet MS', Verdana, Geneva, sans-serif;
     font-size: 13px;
     color: #333;
-    background: #c5cdd6;
-    background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='1' height='1' fill='%23b8c0c9' opacity='0.3'/%3E%3C/svg%3E");
+    background: #fff;
   }
 
   .page-wrapper {
-    max-width: 820px;
+    max-width: 100%;
     margin: 0 auto;
     background: #fff;
-    border-left: 1px solid #aaa;
-    border-right: 1px solid #aaa;
-    box-shadow: 0 0 18px rgba(0,0,0,0.3);
     min-height: 100vh;
   }
 
@@ -132,6 +128,8 @@
   .content {
     padding: 30px 32px;
     background: #fff;
+    max-width: 960px;
+    margin: 0 auto;
   }
 
   /* ── SERVICE BOXES ── */
@@ -330,12 +328,86 @@
   .footer a:hover { text-decoration: underline; color: #aabbcc; }
 
   @media (max-width: 600px) {
-    .services { flex-direction: column; }
-    .header { padding: 28px 20px 24px; }
-    .content { padding: 24px 20px; }
-    .trust-row { gap: 24px; }
-    .nav { flex-wrap: wrap; justify-content: center; }
-    .hero { padding: 40px 24px; }
+    .top-bar {
+      flex-direction: column;
+      text-align: center;
+      gap: 2px;
+      padding: 6px 12px;
+    }
+    .header {
+      padding: 24px 16px 20px;
+    }
+    .header img.logo {
+      width: 110px;
+      height: 110px;
+    }
+    .header h1 {
+      font-size: 24px;
+    }
+    .header .tagline {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+    }
+    .nav {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .nav a {
+      padding: 9px 14px;
+      font-size: 10px;
+      letter-spacing: 1px;
+    }
+    .hero {
+      padding: 36px 20px;
+    }
+    .hero h2 {
+      font-size: 22px;
+    }
+    .hero p {
+      font-size: 12px;
+    }
+    .content {
+      padding: 24px 16px;
+    }
+    .services {
+      flex-direction: column;
+      gap: 14px;
+    }
+    .cta-btn {
+      padding: 12px 28px;
+      font-size: 14px;
+      width: 100%;
+      text-align: center;
+    }
+    .cta-wrapper {
+      margin: 24px 0;
+    }
+    .about-section {
+      padding: 18px 16px;
+    }
+    .about-section h3 {
+      font-size: 15px;
+    }
+    .trust-row {
+      gap: 20px;
+    }
+    .trust-item .number {
+      font-size: 18px;
+    }
+    .area-table {
+      font-size: 11px;
+    }
+    .area-table th,
+    .area-table td {
+      padding: 7px 8px;
+    }
+    .contact-box-body {
+      padding: 14px 16px;
+    }
+    .footer {
+      padding: 16px 16px;
+      font-size: 10px;
+    }
   }
 </style>
 </head>
