@@ -452,7 +452,6 @@
   }
   .ba-half { position: relative; overflow: hidden; background: var(--ink); }
   .ba-half img { width: 100%; height: 100%; object-fit: cover; }
-  .ba-card.featured { grid-column: 1 / -1; aspect-ratio: 21 / 8; }
   .ba-tag {
     position: absolute;
     top: 0.75rem; left: 0.75rem;
@@ -629,7 +628,7 @@
     .about h2, .areas h2 { font-size: clamp(2.1rem, 9vw, 2.8rem); }
 
     .ba-grid { grid-template-columns: 1fr; gap: 1rem; }
-    .ba-solo, .ba-card, .ba-card.featured { aspect-ratio: 4 / 3; }
+    .ba-solo, .ba-card { aspect-ratio: 4 / 3; }
 
     .areas { padding: calc(var(--cut) + 2.5rem) 0; }
     .area-chips span { font-size: 1.15rem; padding: 0.5rem 1.1rem; }
@@ -787,7 +786,7 @@
         <div class="ba-half"><img src="images/ba3-after.jpg" alt="Chimney siding after soft wash — bright white again" loading="lazy"><span class="ba-tag after">After</span></div>
         <figcaption>Chimney soft wash</figcaption>
       </figure>
-      <figure class="ba-card featured">
+      <figure class="ba-card">
         <div class="ba-half"><img src="images/ba4-before.jpg" alt="Underside of a wood deck before cleaning" loading="lazy"><span class="ba-tag">Before</span></div>
         <div class="ba-half"><img src="images/ba4-after.jpg" alt="Underside of a wood deck after cleaning" loading="lazy"><span class="ba-tag after">After</span></div>
         <figcaption>Deck restoration</figcaption>
