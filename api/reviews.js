@@ -17,31 +17,53 @@ export default async function handler(req, res) {
     let placeId = process.env.GOOGLE_PLACE_ID || null;
     let matchedName = null;
 
-    // No Place ID configured? Find the listing by text search.
+    // No Place ID configured? Find the listing by trying several searches.
+    // Phone-number search is the most reliable way to match service-area
+    // businesses that text search can't always find.
     if (!placeId) {
-      const q = process.env.GOOGLE_PLACE_QUERY || DEFAULT_QUERY;
-      const sr = await fetch('https://places.googleapis.com/v1/places:searchText', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Goog-Api-Key': key,
-          'X-Goog-FieldMask': 'places.id,places.displayName,places.userRatingCount',
-        },
-        body: JSON.stringify({ textQuery: q }),
-      });
-      if (!sr.ok) {
-        const body = await sr.text();
-        return res.status(sr.status).json({ error: 'Place search error', detail: body });
+      const winderBias = {
+        circle: { center: { latitude: 33.9926, longitude: -83.7202 }, radius: 40000 },
+      };
+      const candidates = [];
+      if (process.env.GOOGLE_PLACE_QUERY) candidates.push({ textQuery: process.env.GOOGLE_PLACE_QUERY });
+      candidates.push(
+        { textQuery: '(470) 499-0552' },
+        { textQuery: 'Crest Wash Co', locationBias: winderBias },
+        { textQuery: DEFAULT_QUERY },
+        { textQuery: 'Crest Wash Co Winder' },
+      );
+
+      let found = [];
+      const tried = [];
+      for (const body of candidates) {
+        tried.push(body.textQuery);
+        const sr = await fetch('https://places.googleapis.com/v1/places:searchText', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Goog-Api-Key': key,
+            'X-Goog-FieldMask': 'places.id,places.displayName,places.userRatingCount',
+          },
+          body: JSON.stringify(body),
+        });
+        if (!sr.ok) {
+          const detail = await sr.text();
+          return res.status(sr.status).json({ error: 'Place search error', detail, query: body.textQuery });
+        }
+        const sdata = await sr.json();
+        const places = (sdata.places || []).filter((p) =>
+          (p.displayName?.text || '').toLowerCase().includes('crest')
+        );
+        if (places.length) { found = places; break; }
       }
-      const sdata = await sr.json();
-      const places = sdata.places || [];
-      if (!places.length) {
-        return res.status(404).json({ error: 'No place found for query', query: q });
+
+      if (!found.length) {
+        return res.status(404).json({ error: 'No place found', tried });
       }
       // Prefer the listing that actually has reviews.
-      places.sort((a, b) => (b.userRatingCount || 0) - (a.userRatingCount || 0));
-      placeId = places[0].id;
-      matchedName = places[0].displayName?.text || null;
+      found.sort((a, b) => (b.userRatingCount || 0) - (a.userRatingCount || 0));
+      placeId = found[0].id;
+      matchedName = found[0].displayName?.text || null;
     }
 
     const r = await fetch(`https://places.googleapis.com/v1/places/${placeId}`, {

@@ -425,6 +425,7 @@
     font-weight: 600;
   }
   .review-author span { font-size: 0.82rem; color: var(--steel); }
+  .reviews-actions { display: flex; flex-wrap: wrap; gap: 0.9rem; }
   .reviews-fallback { text-align: center; color: var(--steel); }
   .reviews-fallback .btn { margin-top: 1.2rem; }
 
@@ -750,7 +751,10 @@
           <small id="rv-count"></small>
         </span>
       </div>
-      <a class="btn btn-outline" id="rv-link" href="https://share.google/uIac9XxrfZLPAN6Pd" target="_blank" rel="noopener">Read all reviews on Google</a>
+      <div class="reviews-actions">
+        <a class="btn btn-primary" href="https://search.google.com/local/writereview?placeid=ChIJBbk-L2PjFUgRC5XuoKCzG9k" target="_blank" rel="noopener">Leave a review</a>
+        <a class="btn btn-outline" id="rv-link" href="https://share.google/uIac9XxrfZLPAN6Pd" target="_blank" rel="noopener">Read all reviews on Google</a>
+      </div>
     </div>
     <div class="review-grid reveal" id="review-grid"></div>
     <p class="reviews-fallback" id="reviews-fallback" hidden>
