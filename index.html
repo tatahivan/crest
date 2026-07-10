@@ -391,6 +391,10 @@
     gap: 1.25rem;
   }
   .review-card {
+    transition: opacity 0.45s ease, transform 0.45s ease;
+  }
+  .review-card.swapping { opacity: 0; transform: translateY(8px); }
+  .review-card {
     background: var(--mist);
     padding: 1.6rem 1.5rem;
     display: flex;
@@ -753,7 +757,7 @@
       </div>
       <div class="reviews-actions">
         <a class="btn btn-primary" href="https://search.google.com/local/writereview?placeid=ChIJBbk-L2PjFUgRC5XuoKCzG9k" target="_blank" rel="noopener">Leave a review</a>
-        <a class="btn btn-outline" id="rv-link" href="https://share.google/uIac9XxrfZLPAN6Pd" target="_blank" rel="noopener">Read all reviews on Google</a>
+        <a class="btn btn-outline" id="rv-link" href="https://search.google.com/local/reviews?placeid=ChIJBbk-L2PjFUgRC5XuoKCzG9k" target="_blank" rel="noopener">Read all reviews on Google</a>
       </div>
     </div>
     <div class="review-grid reveal" id="review-grid"></div>
@@ -861,19 +865,51 @@
         document.getElementById('rv-count').textContent = data.count + ' Google reviews';
         document.getElementById('reviews-score').hidden = false;
       }
-      if (data.mapsUrl) document.getElementById('rv-link').href = data.mapsUrl;
 
       const esc = (s) => { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; };
-
-      grid.innerHTML = data.reviews.map(rv => `
-        <article class="review-card">
+      const cardHTML = (rv) => `
           <span class="stars" aria-label="${rv.rating} out of 5 stars">${'★'.repeat(rv.rating)}${'☆'.repeat(5 - rv.rating)}</span>
           <p>${esc(rv.text)}</p>
           <div class="review-author">
             ${rv.photo ? `<img src="${esc(rv.photo)}" alt="" loading="lazy" referrerpolicy="no-referrer">` : ''}
             <div><b>${esc(rv.author)}</b><span>${esc(rv.time)}</span></div>
-          </div>
-        </article>`).join('');
+          </div>`;
+
+      // Shuffle so each visit leads with different reviews
+      const pool = [...data.reviews];
+      for (let i = pool.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [pool[i], pool[j]] = [pool[j], pool[i]];
+      }
+
+      const SLOTS = Math.min(3, pool.length);
+      const visible = pool.slice(0, SLOTS);
+      let queue = pool.slice(SLOTS);
+
+      grid.innerHTML = visible.map(rv => `<article class="review-card">${cardHTML(rv)}</article>`).join('');
+
+      // Gently rotate hidden reviews in, one card at a time
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (queue.length && !reduced) {
+        const cards = [...grid.children];
+        let slot = 0;
+        let paused = false;
+        grid.addEventListener('mouseenter', () => { paused = true; });
+        grid.addEventListener('mouseleave', () => { paused = false; });
+        setInterval(() => {
+          if (paused || document.hidden) return;
+          const card = cards[slot];
+          const incoming = queue.shift();
+          queue.push(visible[slot]);
+          visible[slot] = incoming;
+          card.classList.add('swapping');
+          setTimeout(() => {
+            card.innerHTML = cardHTML(incoming);
+            card.classList.remove('swapping');
+          }, 460);
+          slot = (slot + 1) % cards.length;
+        }, 6000);
+      }
     } catch (e) {
       grid.hidden = true;
       fallback.hidden = false;
