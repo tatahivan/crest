@@ -500,29 +500,10 @@
     clip-path: polygon(0 0, 100% var(--cut), 100% 100%, 0 calc(100% - var(--cut)));
   }
   .areas-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3.5rem;
-    align-items: center;
+    max-width: 720px;
   }
   .areas h2 { font-size: clamp(2.2rem, 5vw, 3.2rem); font-weight: 700; }
   .areas p { margin-top: 1rem; color: rgba(255,255,255,0.72); max-width: 30rem; }
-  .area-chips { display: flex; flex-wrap: wrap; gap: 0.8rem; }
-  .area-chips span {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 600;
-    font-size: 1.4rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 0.65rem 1.5rem;
-    background: rgba(255,255,255,0.06);
-    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.18);
-    clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
-  }
-  .area-chips span.hq {
-    background: var(--crest);
-    box-shadow: none;
-  }
 
   /* ── CONTACT ── */
   .contact { padding: 6rem 0 5rem; background: var(--white); text-align: center; }
@@ -633,14 +614,13 @@
     .band { padding: calc(var(--cut) + 2.5rem) 0; }
     .stats { grid-template-columns: 1fr; gap: 1.8rem; }
 
-    .about-grid, .areas-grid { grid-template-columns: 1fr; gap: 2.25rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2.25rem; }
     .about h2, .areas h2 { font-size: clamp(2.1rem, 9vw, 2.8rem); }
 
     .ba-grid { grid-template-columns: 1fr; gap: 1rem; }
     .ba-solo, .ba-card { aspect-ratio: 4 / 3; }
 
     .areas { padding: calc(var(--cut) + 2.5rem) 0; }
-    .area-chips span { font-size: 1.15rem; padding: 0.5rem 1.1rem; }
 
     .contact h2 { font-size: clamp(2.3rem, 10vw, 3.2rem); }
     .contact-phone { font-size: clamp(2.1rem, 11vw, 3.4rem); }
@@ -675,7 +655,7 @@
   <div class="hero-inner">
     <p class="eyebrow hero-eyebrow">Winder, GA · Northeast Georgia</p>
     <h1 class="display">Precision exterior <span class="accent">cleaning.</span></h1>
-    <p>Soft washing, pressure washing, and surface cleaning for homes and businesses — done carefully, done right, no corners cut.</p>
+    <p>House washing, surface cleaning, and pressure washing for homes and businesses — done carefully, done right, no corners cut.</p>
     <div class="hero-actions">
       <a class="btn btn-primary" href="tel:4704990552">Get a free estimate</a>
       <a class="btn btn-ghost" href="#services">See what we do</a>
@@ -699,17 +679,17 @@
         </div>
       </article>
       <article class="service-card reveal">
-        <img src="images/brick-wash.jpg" alt="Pressure washing a dark brick wall with a high-reach lance" loading="lazy">
-        <div class="service-card-body">
-          <h3>Pressure Washing</h3>
-          <p>Heavy-duty cleaning for brick, stone, and tough grime that a garden hose won't touch.</p>
-        </div>
-      </article>
-      <article class="service-card reveal">
         <img src="images/driveway-clean.jpg" alt="Surface cleaning a concrete driveway" loading="lazy">
         <div class="service-card-body">
           <h3>Surface Cleaning</h3>
           <p>Driveways, walkways, patios, and commercial concrete — restored evenly, edge to edge.</p>
+        </div>
+      </article>
+      <article class="service-card reveal">
+        <img src="images/brick-wash.jpg" alt="Pressure washing a dark brick wall with a high-reach lance" loading="lazy">
+        <div class="service-card-body">
+          <h3>Pressure Washing</h3>
+          <p>Heavy-duty cleaning for brick, stone, and tough grime that a garden hose won't touch.</p>
         </div>
       </article>
     </div>
@@ -817,16 +797,7 @@
     <div class="reveal">
       <p class="eyebrow hero-eyebrow">Where we work</p>
       <h2 class="display">Serving Northeast Georgia</h2>
-      <p>Based in Winder and covering the surrounding area. Every service — soft wash, pressure wash, and surface cleaning — is available everywhere we go. Not sure if we reach you? Call and ask.</p>
-    </div>
-    <div class="area-chips reveal">
-      <span class="hq">Winder</span>
-      <span>Jefferson</span>
-      <span>Braselton</span>
-      <span>Athens</span>
-      <span>Hoschton</span>
-      <span>Flowery Branch</span>
-      <span>&amp; surrounding</span>
+      <p>Based in Winder and covering the surrounding area. Every service — house washing, pressure washing, and surface cleaning — is available everywhere we go. Not sure if we reach you? Call and ask.</p>
     </div>
   </div>
 </section>
